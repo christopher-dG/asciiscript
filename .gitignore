@@ -1,2 +1,3 @@
 asciiscript
-test.sh
+*.sh
+*.cast

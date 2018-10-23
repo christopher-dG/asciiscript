@@ -126,7 +126,7 @@ func (s Delay) Run(sc *Script) {
 
 // NewCtrl creates a new control command.
 func NewCtrl(cmd string) (Command, error) {
-	tokens := strings.Split(cmd, ":")
+	tokens := strings.Split(cmd, " ")
 	switch strings.TrimSpace(tokens[0]) {
 	case "delay":
 		return NewDelay(tokens[1:])
@@ -158,7 +158,7 @@ func NewScript(path string, args []string) (*Script, error) {
 
 	s := &Script{
 		Args:  args,
-		Delay: time.Millisecond * 20,
+		Delay: time.Millisecond * 40,
 		Wait:  time.Millisecond * 100,
 	}
 
@@ -168,7 +168,7 @@ func NewScript(path string, args []string) (*Script, error) {
 			continue
 		}
 		if strings.HasPrefix(line, CtrlPrefix) {
-			ctrl, err := NewCtrl(line[len(CtrlPrefix):])
+			ctrl, err := NewCtrl(strings.TrimSpace(line[len(CtrlPrefix):]))
 			if err != nil {
 				return nil, fmt.Errorf("%v (line %d)", err, i+1)
 			}
